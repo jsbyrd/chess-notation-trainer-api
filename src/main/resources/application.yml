@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: chess-notation-trainer-api
+  datasource:
+    url: jdbc:postgresql://localhost:5432/${DB_DATABASE}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
