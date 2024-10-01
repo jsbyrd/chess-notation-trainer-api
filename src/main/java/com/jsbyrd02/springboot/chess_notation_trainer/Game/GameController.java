@@ -3,11 +3,17 @@ package com.jsbyrd02.springboot.chess_notation_trainer.Game;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Objects;
 
 @RestController
 @Slf4j
@@ -71,5 +77,13 @@ public class GameController {
 
         messagingTemplate.convertAndSend("/topic/game-progress/" + move.getGameId(), gameResponse);
         return ResponseEntity.ok(gameResponse);
+    }
+
+    @MessageMapping("/game.addUser")
+    @SendTo("/topic/public")
+    public void addUser(@Payload JoinGameRequestDTO joinGameRequestDTO, SimpMessageHeaderAccessor headerAccessor) {
+        // Add username to websocket session
+        log.info("Adding user {}", joinGameRequestDTO.getPlayerId());
+        Objects.requireNonNull(headerAccessor.getSessionAttributes()).put("username", joinGameRequestDTO.getPlayerId());
     }
 }

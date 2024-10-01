@@ -43,4 +43,15 @@ public class GameService {
         if (gameRoom == null) throw new GameException("A game with gameId " + gameId + " does not exist.");
         return gameRoom;
     }
+
+    public GameRoom findGameByPlayer(String playerId) {
+        return gameRooms.values().stream()
+                .filter(gameRoom -> gameRoom.getPlayer1Id().equals(playerId) || gameRoom.getPlayer2Id().equals(playerId))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public void removeGame(String gameId) {
+        gameRooms.remove(gameId);
+    }
 }

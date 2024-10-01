@@ -16,4 +16,13 @@ public class GameRoom {
     private String player2Id;
     private String player2Color;
     private String fen;
+
+    public String getOpponentId(String playerId) {
+        if (player1Id.equals(playerId)) {
+            return player2Id;
+        } else if (player2Id.equals(playerId)) {
+            return player1Id;
+        }
+        return null;
+    }
 }
