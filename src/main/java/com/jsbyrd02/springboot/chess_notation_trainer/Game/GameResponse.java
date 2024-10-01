@@ -17,4 +17,5 @@ public class GameResponse {
     private String player2Id;
     private String player2Color;
     private String move;
+    private String error;
 }

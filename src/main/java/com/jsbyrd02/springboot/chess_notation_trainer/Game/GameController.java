@@ -27,17 +27,23 @@ public class GameController {
     public ResponseEntity<GameResponse> create(@RequestBody CreateGameRequestDTO request) {
         log.info("Create game request: {} {}", request.getPlayerId(), request.getColor());
 
-        GameRoom gameRoom = gameService.createGame(request.getPlayerId(), request.getColor());
-
+        GameRoom gameRoom;
         GameResponse gameResponse = new GameResponse();
-        gameResponse.setGameState(GAME_STATE.WAITING);
-        gameResponse.setPlayer1Id(request.getPlayerId());
-        gameResponse.setPlayer1Color(request.getColor());
-        gameResponse.setGameId(gameRoom.getGameId());
 
-        log.info("Game created: {}", gameRoom.getGameId());
+        try {
+            gameRoom = gameService.createGame(request.getPlayerId(), request.getColor());
+            gameResponse.setGameState(GAME_STATE.WAITING);
+            gameResponse.setPlayer1Id(request.getPlayerId());
+            gameResponse.setPlayer1Color(request.getColor());
+            gameResponse.setGameId(gameRoom.getGameId());
 
-        messagingTemplate.convertAndSend("/topic/game-progress/" + gameRoom.getGameId(), gameResponse);
+            log.info("Game created: {}", gameRoom.getGameId());
+
+            messagingTemplate.convertAndSend("/topic/game-progress/" + gameRoom.getGameId(), gameResponse);
+        } catch (GameException e) {
+            gameResponse.setError(e.getMessage());
+        }
+
 
         return ResponseEntity.ok(gameResponse);
     }
@@ -46,17 +52,23 @@ public class GameController {
     public ResponseEntity<GameResponse> join(@RequestBody JoinGameRequestDTO request) throws GameException {
         log.info("join request: {}", request);
 
-        GameRoom gameRoom = gameService.joinGame(request.getPlayerId(), request.getGameId());
-
+        GameRoom gameRoom;
         GameResponse gameResponse = new GameResponse();
-        gameResponse.setGameState(GAME_STATE.ACTIVE);
-        gameResponse.setGameId(gameRoom.getGameId());
-        gameResponse.setPlayer1Id(gameRoom.getPlayer1Id());
-        gameResponse.setPlayer1Color(gameRoom.getPlayer1Color());
-        gameResponse.setPlayer2Id(gameRoom.getPlayer2Id());
-        gameResponse.setPlayer2Color(gameRoom.getPlayer2Color());
 
-        messagingTemplate.convertAndSend("/topic/game-progress/" + request.getGameId(), gameResponse);
+        try {
+            gameRoom = gameService.joinGame(request.getPlayerId(), request.getGameId());
+            gameResponse.setGameState(GAME_STATE.ACTIVE);
+            gameResponse.setGameId(gameRoom.getGameId());
+            gameResponse.setPlayer1Id(gameRoom.getPlayer1Id());
+            gameResponse.setPlayer1Color(gameRoom.getPlayer1Color());
+            gameResponse.setPlayer2Id(gameRoom.getPlayer2Id());
+            gameResponse.setPlayer2Color(gameRoom.getPlayer2Color());
+
+            // Let player one know that player 2 has joined
+            messagingTemplate.convertAndSend("/topic/game-progress/" + request.getGameId(), gameResponse);
+        } catch (GameException e) {
+            gameResponse.setError(e.getMessage());
+        }
 
         return ResponseEntity.ok(gameResponse);
     }
@@ -65,17 +77,25 @@ public class GameController {
     public ResponseEntity<GameResponse> makeMove(@RequestBody MakeMoveDTO move) throws  GameException {
         log.info("move: {}", move.getMove());
 
-        GameRoom gameRoom = gameService.getGame(move.getGameId());
+        GameRoom gameRoom;
         GameResponse gameResponse = new GameResponse();
-        gameResponse.setGameState(GAME_STATE.ACTIVE);
-        gameResponse.setPlayer1Id(gameRoom.getPlayer1Id());
-        gameResponse.setPlayer1Color(gameRoom.getPlayer1Color());
-        gameResponse.setPlayer2Id(gameRoom.getPlayer2Id());
-        gameResponse.setPlayer2Color(gameRoom.getPlayer2Color());
-        gameResponse.setGameId(gameRoom.getGameId());
-        gameResponse.setMove(move.getMove());
 
-        messagingTemplate.convertAndSend("/topic/game-progress/" + move.getGameId(), gameResponse);
+        try {
+            gameRoom = gameService.getGame(move.getGameId());
+            gameResponse.setGameState(GAME_STATE.ACTIVE);
+            gameResponse.setPlayer1Id(gameRoom.getPlayer1Id());
+            gameResponse.setPlayer1Color(gameRoom.getPlayer1Color());
+            gameResponse.setPlayer2Id(gameRoom.getPlayer2Id());
+            gameResponse.setPlayer2Color(gameRoom.getPlayer2Color());
+            gameResponse.setGameId(gameRoom.getGameId());
+            gameResponse.setMove(move.getMove());
+
+            // Send both players the move that was made
+            messagingTemplate.convertAndSend("/topic/game-progress/" + move.getGameId(), gameResponse);
+        } catch (GameException e) {
+            gameResponse.setError(e.getMessage());
+        }
+
         return ResponseEntity.ok(gameResponse);
     }
 
