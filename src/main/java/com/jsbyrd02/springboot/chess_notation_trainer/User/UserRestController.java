@@ -1,7 +1,5 @@
-package com.jsbyrd02.springboot.chess_notation_trainer.rest;
+package com.jsbyrd02.springboot.chess_notation_trainer.User;
 
-import com.jsbyrd02.springboot.chess_notation_trainer.entity.User;
-import com.jsbyrd02.springboot.chess_notation_trainer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

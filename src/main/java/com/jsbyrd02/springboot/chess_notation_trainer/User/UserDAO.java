@@ -1,6 +1,5 @@
-package com.jsbyrd02.springboot.chess_notation_trainer.repository;
+package com.jsbyrd02.springboot.chess_notation_trainer.User;
 
-import com.jsbyrd02.springboot.chess_notation_trainer.entity.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.jsbyrd02.springboot.chess_notation_trainer.entity;
+package com.jsbyrd02.springboot.chess_notation_trainer.User;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

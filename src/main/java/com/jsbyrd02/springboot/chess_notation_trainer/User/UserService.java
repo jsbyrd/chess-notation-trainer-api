@@ -1,13 +1,10 @@
-package com.jsbyrd02.springboot.chess_notation_trainer.service;
+package com.jsbyrd02.springboot.chess_notation_trainer.User;
 
-import com.jsbyrd02.springboot.chess_notation_trainer.entity.User;
-import com.jsbyrd02.springboot.chess_notation_trainer.repository.UserDAO;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService {
