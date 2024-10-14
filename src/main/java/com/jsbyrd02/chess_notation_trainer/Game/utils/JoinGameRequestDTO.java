@@ -1,4 +1,4 @@
-package com.jsbyrd02.chess_notation_trainer.Game;
+package com.jsbyrd02.chess_notation_trainer.Game.utils;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class GameEndMessage {
-    private String winnerId;
-    private String message;
+public class JoinGameRequestDTO {
+    private String gameId;
+    private String playerId;
 }

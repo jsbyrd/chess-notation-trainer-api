@@ -54,6 +54,7 @@ public class SecurityConfig {
                         // Require authentication for all other api endpoints
                         .requestMatchers("/api/users/**").authenticated()
                         .requestMatchers("/api/mm-analytics/**").authenticated()
+                        .requestMatchers("/api/nn-analytics/**").authenticated()
         );
 
         // Enable Basic Auth with real DB users

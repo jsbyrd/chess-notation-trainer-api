@@ -1,6 +1,6 @@
 package com.jsbyrd02.chess_notation_trainer.config.websockets;
 
-import com.jsbyrd02.chess_notation_trainer.Game.GameRoom;
+import com.jsbyrd02.chess_notation_trainer.Game.utils.GameRoom;
 import com.jsbyrd02.chess_notation_trainer.Game.GameService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,5 +1,6 @@
 package com.jsbyrd02.chess_notation_trainer.Game;
 
+import com.jsbyrd02.chess_notation_trainer.Game.utils.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

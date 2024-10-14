@@ -1,4 +1,4 @@
-package com.jsbyrd02.chess_notation_trainer.Game;
+package com.jsbyrd02.chess_notation_trainer.Game.utils;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

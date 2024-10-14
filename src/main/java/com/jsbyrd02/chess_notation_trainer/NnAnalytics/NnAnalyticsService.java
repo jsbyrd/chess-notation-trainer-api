@@ -1,7 +1,7 @@
-package com.jsbyrd02.chess_notation_trainer.MmAnalytics;
+package com.jsbyrd02.chess_notation_trainer.NnAnalytics;
 
-import com.jsbyrd02.chess_notation_trainer.MmAnalytics.MmAnalytics;
-import com.jsbyrd02.chess_notation_trainer.MmAnalytics.MmAnalyticsRepository;
+import com.jsbyrd02.chess_notation_trainer.NnAnalytics.NnAnalytics;
+import com.jsbyrd02.chess_notation_trainer.NnAnalytics.NnAnalyticsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,22 +13,22 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class MmAnalyticsService {
+public class NnAnalyticsService {
 
-    private final MmAnalyticsRepository repository;
+    private final NnAnalyticsRepository repository;
 
-    public MmAnalytics createAnalytics(MmAnalytics mmAnalytics) {
-        mmAnalytics.setGameId(UUID.randomUUID().toString());
-        mmAnalytics.setDate(Date.valueOf(LocalDate.now()));
+    public NnAnalytics createAnalytics(NnAnalytics nnAnalytics) {
+        nnAnalytics.setGameId(UUID.randomUUID().toString());
+        nnAnalytics.setDate(Date.valueOf(LocalDate.now()));
 
-        return repository.save(mmAnalytics);
+        return repository.save(nnAnalytics);
     }
 
-    public List<MmAnalytics> getAllAnalyticsByUsername(String username) {
+    public List<NnAnalytics> getAllAnalyticsByUsername(String username) {
         return repository.findByUsername(username);
     }
 
-    public Optional<MmAnalytics> updateAnalytics(String gameId, MmAnalytics updatedAnalytics) {
+    public Optional<NnAnalytics> updateAnalytics(String gameId, NnAnalytics updatedAnalytics) {
         return repository.findById(gameId).map(existingAnalytics -> {
             existingAnalytics.setScore(updatedAnalytics.getScore());
             existingAnalytics.setTotal(updatedAnalytics.getTotal());

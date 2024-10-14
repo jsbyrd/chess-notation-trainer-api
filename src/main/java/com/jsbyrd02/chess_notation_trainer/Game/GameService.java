@@ -1,5 +1,7 @@
 package com.jsbyrd02.chess_notation_trainer.Game;
 
+import com.jsbyrd02.chess_notation_trainer.Game.utils.GameException;
+import com.jsbyrd02.chess_notation_trainer.Game.utils.GameRoom;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
